@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>大流量后端架构优化手段整理 | 半醒的狐狸</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">大流量后端架构优化手段整理</h1><a id="logo" href="/.">半醒的狐狸</a><p class="description">技术、产品、创业、思考、写作</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">大流量后端架构优化手段整理</h1><div class="post-meta">Sep 17, 2018</div><div class="post-content"><blockquote>
+<p>大流量，是大多数项目期待的效果，同时也是大多后端技术岗需要面对的一个挑战。今天我把我学习时收集到相关技术手段进行整理，脑图如下：</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/3532419-9ca7232a37fe2332.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="大流量后端架构优化手段.png"></p>
+<p>如图所见，可以想到一个逻辑：</p>
+<blockquote>
+<p>大流量 <strong>等同于</strong> 请求量大<br>请求量大 <strong>引起</strong> 高并发<br>请求量大 <strong>同样引起</strong> 数据量大<br>高并发（时间段内需要处理的事多）<strong>产生</strong> 容器与数据库负载<br>数据量大 <strong>产生</strong> 数据库负载</p>
+</blockquote>
+<p>综上所述，可以总结出最后两个问题：</p>
+<blockquote>
+<ul>
+<li>容器负载</li>
+<li>数据库负载</li>
+</ul>
+</blockquote>
+<p>说白了，就是负责解析服务端脚本的容器（apache或php-fpm）的压力很大，还有mysql的压力很大。</p>
+<p>那么，我们就需要想办法解决它们的压力。</p>
+<p>先说说mysql：</p>
+<ul>
+<li>减少操作mysql的次数<ul>
+<li>当我们使用缓存技术、页面静态化技术，可以减少对mysql的访问次数，这个非常重要，假设请求量是一百万，如果每次都查询数据库，则不仅容器处理了一百万次请求，数据库也处理了至少一百万次操作（一次对容器的请求，可能涉及到多次数据库操作），这个时候如果合理利用了静态化技术，虽然没有减少容器的压力，但却大大减少了mysql的压力。</li>
+</ul>
+</li>
+<li>提升mysql的处理效率<ul>
+<li>包括索引优化、配置优化、分表技术、硬件升级，都是提升mysql处理效率的有效手段，当然，更重要也是最基本的，是设计一个合理的表结构</li>
+</ul>
+</li>
+<li>减轻mysql服务的压力<ul>
+<li>当一个人干不过来的事，那就多找几个人来干，谁都知道这个道理。所以，读写分离（均衡负载）是非常有效的手段。</li>
+</ul>
+</li>
+</ul>
+<p>再说说容器：</p>
+<ul>
+<li>优化程序<ul>
+<li>至少别让程序做一些毫无意义的事，优化算法和优化逻辑。</li>
+</ul>
+</li>
+<li>均衡负载<ul>
+<li>硬件的解决，效果显著，立竿见影，但是费钱。软件的解决则普遍依靠nginx来解决。</li>
+</ul>
+</li>
+</ul>
+<p>另外，除了优化这些压力意外，我们还必须面对大流量引起的一个问题——带宽。<br>通常情况下，除了优化带宽开支（如使用对象存储、压缩资源等）和提升带宽意外，好像我也没有想到什么别的办法了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><hr>
+<blockquote>
+<p>本文主要整理了一下“大流量后端架构”的优化手段，以填充后端开发人员的解决思路。在有些公司，均衡负载、读写分离可能是运维的事情，但作为后端，而且对技术有一种特殊的执着，我还是认为有必要对这些有了解，更应该去亲手实践一下。</p>
+</blockquote>
+</div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2018/09/17/对组件化开发的理解与思考/">对组件化开发的理解与思考</a><a class="next" href="/2018/09/17/总结PHP一些容易模糊的知识点/">总结PHP一些容易模糊的知识点</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://ablegang.github.io"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/小团队Linux项目部署方案/">小团队Linux项目部署方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/用ORM还是用原生SQL？/">用ORM还是用原生SQL？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/经验总汇/">laravel 经验总汇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/PHP7-1废弃Mcrypt后，可用openssl替代/">PHP7.1废弃Mcrypt后，可用openssl替代</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/电子合同接入与注意要点/">电子合同接入与注意要点</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/OOP之细节若干/">OOP之细节若干</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/Web服务架构标准/">Restful Web服务架构标准</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/PHP面向对象知识点索引/">PHP面向对象知识点索引</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/对组件化开发的理解与思考/">对组件化开发的理解与思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/大流量后端架构优化手段整理/">大流量后端架构优化手段整理</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">半醒的狐狸.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>小团队Linux项目部署方案 | 半醒的狐狸</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">小团队Linux项目部署方案</h1><a id="logo" href="/.">半醒的狐狸</a><p class="description">技术、产品、创业、思考、写作</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">小团队Linux项目部署方案</h1><div class="post-meta">Sep 17, 2018</div><div class="post-content"><p>一台服务器，多人协作，需要区分账号与权限。<br>比如现在的状况：</p>
+<ul>
+<li>前端测试版部署</li>
+<li>后端测试版部署</li>
+<li>正式服需维护、救火、更新</li>
+<li>每一个域名需要有https支持</li>
+</ul>
+<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><ul>
+<li>无专业运维</li>
+<li>精力不足</li>
+</ul>
+<p>基于现状，运维由后端主程兼任，但大多数精力分布于项目迭代、编码、团队管理的事情上，在服务器这块，则希望不要投入太大精力，以此提升工作效率。</p>
+<h1 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h1><h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li>宝塔面板<blockquote>
+<p>免费、或者少量费用就可以解决大多数服务器问题，采用运维外包的方式，最大化减少运维成本。</p>
+</blockquote>
+</li>
+<li>git<blockquote>
+<p>代码托管在云端仓库，<strong>本地开发</strong>与<strong>线上救火</strong>留下的痕迹需互相同步，用git是一个比较好的方法。</p>
+</blockquote>
+</li>
+<li>composer<blockquote>
+<p>使用php开发，composer是必要的，线下项目并不会上传vendor目录，这一块在部署的时候由composer来完成。</p>
+</blockquote>
+</li>
+<li>LNMP<blockquote>
+<p>宝塔面板支持快速安装，推荐安装好php5和php7两个版本，不同的系统有时候对php版本要求不一样。另外，mysql使用AliSQL。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><ul>
+<li>www<blockquote>
+<p>宝塔安装的nginx，默认用户为www。一般拥有在www/wwwroot下面的所有权限。<br>  但这是一个绑定在nginx上的用户，不可登录。<br>  网站通过80端口进来的，都是www用户，所以，www用户一定要对项目目录拥有读取、写入、执行的权限。</p>
+</blockquote>
+</li>
+<li>自建用户<blockquote>
+<p>自己添加的用户，一般在home下绑定一个目录，这个目录可以通过~来访问，这是为了用户可以存储一些如.ssh之类的东西。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="用户组"><a href="#用户组" class="headerlink" title="用户组"></a>用户组</h2><ul>
+<li>www<blockquote>
+<p>这个用户组是和www用户一起生成的，默认新建网站的时候，都会绑定www用户、www用户组。</p>
+</blockquote>
+</li>
+<li>自建用户组<blockquote>
+<p>自建用户的时候会自建用户组。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><ul>
+<li><p>查看当前用户</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/passwd -- 用户</span><br><span class="line">car /etc/group -- 用户组</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建用户</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd -d &#123;目录&#125; &#123;用户名&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置密码</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd &#123;用户名&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建网站</p>
+<blockquote>
+<p>宝塔面板-&gt;网站-&gt;新建</p>
+</blockquote>
+</li>
+<li>授权<blockquote>
+<p>修改网站的目录拥有者为刚才新建的用户，这样便于该用户管理该目录，并需设置该目录权限为770（用户+用户组同时拥有写入、读取、执行）</p>
+</blockquote>
+</li>
+<li><p>www绑定</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">usermod -a -G &#123;用户组&#125; &#123;用户&#125;</span><br><span class="line">groups [user] -- 用于查看用户的组</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>必须给www用户赋予该目录拥有组的能力，才能够正常访问。</p>
+</blockquote>
+</li>
+<li>重启nginx<blockquote>
+<p>给www赋予新能力时，需要重启nginx，因为www用户需要重载。</p>
+</blockquote>
+</li>
+<li>检查周边文件夹<blockquote>
+<p>其他文件夹，必要的系统文件保留原有权限，而同样在wwwroot下的其他目录，要么属于www，要么属于具体管理该目录的用户，并且权限必须为770，以此杜绝其他用户超出权限的操作。</p>
+</blockquote>
+</li>
+<li><p>测试</p>
+<blockquote>
+<p>这一步是必要的，先登录新用户，测试周边环境是否为权限不足，而自己的文件夹是否可以访问。<br>  <strong>从home访问到自己拥有的网站目录，不可使用tab键。必须写全路径，如：</strong></p>
+</blockquote>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /website/wwwroot/mysite.baidu.com -- 这里必须输全，再用ls来查看</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>git</p>
+<blockquote>
+<p>使用ssh-keygen生成公钥和私钥，再到~/.ssh下查看。这用于git同步。</p>
+</blockquote>
+</li>
+</ul>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/09/17/用ORM还是用原生SQL？/">用ORM还是用原生SQL？</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://ablegang.github.io"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/小团队Linux项目部署方案/">小团队Linux项目部署方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/用ORM还是用原生SQL？/">用ORM还是用原生SQL？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/经验总汇/">laravel 经验总汇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/PHP7-1废弃Mcrypt后，可用openssl替代/">PHP7.1废弃Mcrypt后，可用openssl替代</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/电子合同接入与注意要点/">电子合同接入与注意要点</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/OOP之细节若干/">OOP之细节若干</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/Web服务架构标准/">Restful Web服务架构标准</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/PHP面向对象知识点索引/">PHP面向对象知识点索引</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/对组件化开发的理解与思考/">对组件化开发的理解与思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/大流量后端架构优化手段整理/">大流量后端架构优化手段整理</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">半醒的狐狸.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>电子合同接入与注意要点 | 半醒的狐狸</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">电子合同接入与注意要点</h1><a id="logo" href="/.">半醒的狐狸</a><p class="description">技术、产品、创业、思考、写作</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">电子合同接入与注意要点</h1><div class="post-meta">Sep 17, 2018</div><div class="post-content"><p>电子合同的签署，关键问题在于协议的法律有效性。那么除却协议本身的正规性外，便需要关注电子合同签订的相关规定，大致要保证以下四个要素：</p>
+<ul>
+<li>真实身份</li>
+<li>真实意愿</li>
+<li>文档未被修改</li>
+<li>签名未改</li>
+</ul>
+<h2 id="详细说明"><a href="#详细说明" class="headerlink" title="详细说明"></a>详细说明</h2><blockquote>
+<p>合同内容，合同的载体，合同签名或者盖章，合同文本的交换方法。原则：<br>1.立足于分析传统的书面要求的目的和作用，以确定如何通过电子商业技术来达到这些目的或作用。<br>2.根据起草者解释，其具体做法是挑出书面形式要求中的基本作用，以其作为标准，一旦数据电文达到这些标准，即可同起着相同作用的相应书面文件一样，享受同等程度的法律认可。<br>3.就数据电文本身来看，不能将其视为等同于书面文件，因为数据电文具有不同的性质，不一定能起到书面文件所能起到的全部作用。<br>4.分别对书面、签字(认证)、原件采用功能等同的方法，确定其标准，而不是确定数据电文等同于纸面文件的一揽子标准。</p>
+</blockquote>
+<p>真实身份的话，实名认证、银行四要素认证来确定一个人的真实性。</p>
+<p>真实意愿，则在签署的时候，给银行预留手机号发送短信验证码（这里默认用户银行预留手机号就是用户在保管的），输入验证码和手动签名来确保真实意愿。</p>
+<p>文档未被修改，指的是签署的几方所看到的内容，和最后存证归档的内容是一致的，这个由PDF来确定文档的修改记录</p>
+<p>签名未改，用户用于签署协议的CA证书在协议存证归档之后，整个过程都是没有被改动过的。</p>
+<p>通常，真实身份由接入平台自己确保，而后面真实意愿、文档未被修改、签名未被修改这三个则由提供电子签署功能的平台来保证。</p>
+<p>若协议有纠纷，则需要联系这个平台准备相关资料以用于出证。</p>
+<p>那么，出证时，就需要确保上述4个要素，以证明这份电子合同的法律效益。</p>
+<p>所以，这里最好选择大的知名平台。</p>
+<p><a href="https://www.zhihu.com/question/24294679" target="_blank" rel="noopener">这里是关于电子合同详细的说明</a></p>
+<h1 id="对接流程"><a href="#对接流程" class="headerlink" title="对接流程"></a>对接流程</h1><p>与第三方对接，一般分为技术对接、商务对接两个环节，工期紧的话，可以同步进行。</p>
+<p>这里主要说技术对接，平台主要要准备如下内容：</p>
+<ul>
+<li>PDF协议模板，自己设置好文本域</li>
+<li><p>签署双方的信息</p>
+<blockquote>
+<p>企业则企业营业执照（三证统一）、企业邮箱、企业法人身份证、管理人身份证</p>
+</blockquote>
+<blockquote>
+<p>客户手机号、姓名、身份证信息</p>
+</blockquote>
+<blockquote>
+<p>上面信息是基本上的平台都需要的，不同平台可能有不同的需求</p>
+</blockquote>
+</li>
+</ul>
+<p>流程如下：</p>
+<ul>
+<li>生成企业在第三方平台的唯一标识</li>
+<li>生成客户（个人或企业）的唯一标识</li>
+<li>传输PDF文档到第三方平台</li>
+<li>调用各方签署接口</li>
+<li>各方签署完成，调用存证接口</li>
+</ul>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>写的比较简单，不便说具体的平台，但大致流程就是这样，但这里还是要提醒下，找平台的时候，一定要找大的，正规的，还有技术上好对接的。</p>
+<blockquote>
+<p>我用PHP开发的后端项目，对接的有一家平台居然直接丢给我一个java后端的sdk，让我自己搭建运行的服务器…最后夭折了。</p>
+</blockquote>
+</div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2018/09/17/PHP7-1废弃Mcrypt后，可用openssl替代/">PHP7.1废弃Mcrypt后，可用openssl替代</a><a class="next" href="/2018/09/17/OOP之细节若干/">OOP之细节若干</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://ablegang.github.io"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/小团队Linux项目部署方案/">小团队Linux项目部署方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/用ORM还是用原生SQL？/">用ORM还是用原生SQL？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/经验总汇/">laravel 经验总汇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/PHP7-1废弃Mcrypt后，可用openssl替代/">PHP7.1废弃Mcrypt后，可用openssl替代</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/电子合同接入与注意要点/">电子合同接入与注意要点</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/OOP之细节若干/">OOP之细节若干</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/Web服务架构标准/">Restful Web服务架构标准</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/PHP面向对象知识点索引/">PHP面向对象知识点索引</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/对组件化开发的理解与思考/">对组件化开发的理解与思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/大流量后端架构优化手段整理/">大流量后端架构优化手段整理</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">半醒的狐狸.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
