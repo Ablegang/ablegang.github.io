@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>git概念与常用命令总结 | 半醒的狐狸</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">git概念与常用命令总结</h1><a id="logo" href="/.">半醒的狐狸</a><p class="description">技术、产品、创业、思考、写作</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">git概念与常用命令总结</h1><div class="post-meta">Sep 17, 2018</div><div class="post-content"><h1 id="开头"><a href="#开头" class="headerlink" title="开头"></a>开头</h1><hr>
+<p>我对git的总结，大体上分为三个方面。</p>
+<ul>
+<li>认知与概念</li>
+<li>命令</li>
+<li>技巧</li>
+</ul>
+<h1 id="认知与概念"><a href="#认知与概念" class="headerlink" title="认知与概念"></a>认知与概念</h1><hr>
+<p>git与svn，是现在最主流的两个版本控制系统，它们分别是<strong>分布式</strong>与<strong>集中式</strong>的代表作。</p>
+<ul>
+<li><p>集中式，svn</p>
+<ul>
+<li>指将版本（代码）集中控制，版本库建立在中央服务器，开发者每次开发必须从中央服务器更新到最新代码，再进行开发，最后推送回中央服务器。</li>
+<li>中央服务器和参与开发的节点之间，必须保证网络畅通。</li>
+<li>且，版本是公有的，因为这种模式下，整个开发团队只有一个仓库。</li>
+</ul>
+</li>
+<li><p>分布式，git</p>
+<ul>
+<li>指将版本（代码）分散在各个开发节点上，每个开发节点，都有自己的一个版本库，与其他节点的版本库互不干扰。</li>
+<li>除非，你去pull或者push。</li>
+<li>在本地开发时，git会将你的代码管理起来，你仓库内的一切版本，都是私有的，你本地的，而不是公共的，除非你授权了某个节点或者push了你的修改，否则，其他节点无法得知你仓库的任何变化与仓库信息。</li>
+<li>为了多人协助，往往在使用git进行版本控制的团队开发场景下，也会设定一个节点用于托管公共代码，这个节点一般被称为git服务器</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>git服务器从项目上，他与其他节点是平等的，并没有更高等级和权限。他只是一个独立于其他节点的公共仓库，用于接受push和提供pull、clone的。简单的讲，git服务器就是用于交换不同节点的修改。</strong></p>
+</blockquote>
+<p>说完两个大概念，接下来说说小概念。</p>
+<ul>
+<li><p>git</p>
+<ul>
+<li>git是一款分布式版本控制工具，本质上，是基于linux的，但后来在不同的平台，如mac os、windows，也提供了相应的客户端。</li>
+<li>git，以及目前市场上所有的版本控制系统，都只能跟踪纯文本形式文件的具体变动，如第几行的xxx改为了xxx。</li>
+<li>像图片、视频、word等二进制文件，git可以跟踪到他的新增、删除变化，但无法跟踪其具体变化了哪个地方。</li>
+</ul>
+<blockquote>
+<p><strong>markdown就可以用来解决说明文件无法用word，却又不能如txt一样单调的问题</strong></p>
+</blockquote>
+</li>
+<li><p>仓库（版本库）</p>
+<ul>
+<li><p>repository（仓库、版本库）的本质是操作系统上的一个目录，目录下的文件，就是被git管理的内容。</p>
+</li>
+<li><p>用于做repository的目录名称，不允许存在中文。</p>
+</li>
+<li><p>.git目录，是一个仓库下隐藏的目录，该目录存放着git管理当前仓库的重要依赖。</p>
+</li>
+</ul>
+</li>
+<li><p>版本（提交、commit）</p>
+<ul>
+<li><p>在git中，提交与版本是等价的，一次commit，就是一个新的版本，而commit id是用来唯一确定一个版本的</p>
+</li>
+<li><p>commit的时候，应当强制写明提交说明，否则版本与分支一多，自己都忘了这个版本是什么。</p>
+</li>
+</ul>
+<blockquote>
+<p>git用 HEAD 来表示当前分支的当前版本，用HEAD^表示前一个版本，HEAD~100表示前一百个版本</p>
+</blockquote>
+</li>
+<li><p>工作区</p>
+<ul>
+<li><p>指的是当前仓库根目录下的文件与目录，这个目录下的任何文件，修改后都可以add和commit，通常开发者都在工作区进行开发与修改。</p>
+</li>
+<li><p>.git目录不算工作区</p>
+</li>
+<li><p>工作区内的文件只有两种情况，一是某个分支或版本的样子 ，二是在某个分支或版本上发生修改的样子,可见，工作区内的文件，一定源自某个版本。</p>
+</li>
+</ul>
+</li>
+<li><p>暂存区</p>
+<ul>
+<li>暂存区存放了本次添加的修改。</li>
+<li>当在工作区的文件发生修改，而进行add之后，就会在暂存区添加修改的信息。</li>
+<li>可以想象，暂存区是允许你一直往里add新的修改的,而commit，则会去暂存区读取所有修改的信息，最终生成一个新的版本。</li>
+</ul>
+<blockquote>
+<p>正因为commit提交的是暂存区里的内容，而暂存区的内容又由add添加的。所以，如果你在工作区做了某个修改却没有add到暂存区里就进行commit，则新生成的版本并不涵盖工作区中未add的修改。但此时，工作区中的那个修改，还是存在的。</p>
+</blockquote>
+</li>
+<li><p>分支</p>
+<ul>
+<li>在git中，分支是必然存在的，版本是建立在分支之上的。默认情况下，我们在master主分支上进行开发。</li>
+<li>新增加的分支，必然都是从主分支上拷贝出来的副本，可以称之为子分支，子分支在完成特定开发任务之后，再合并回主分支去。</li>
+<li>子分支还可以继续去拷贝，生成新的分支。</li>
+<li>当子分支合并回主分支后，主分支可以生成一次新的版本，用于标记本次合并事件，子分支则可以被删除，但是，该分支的版本信息依然存在。</li>
+<li>当在某个分支，回退另一个分支的某个版本时，不会影响当前所在的分支。</li>
+<li>切换分支时，git将把工作区与暂存区重置，所以，git会要求开发者将当前暂存区内容进行提交。</li>
+</ul>
+</li>
+<li><p>冲突</p>
+<ul>
+<li>不同的版本想要合并为同一个版本（pull时比较多见），或不同分支要合并成一个分支时，会发生对同一个文件有着不同的修改，这时就会发生冲突。</li>
+<li>用git status可以查看冲突的文件，手动解决所有冲突后，再add和commit。</li>
+<li>多人协作时，必须先pull，再push，以保持版本库与远端版本库最新状态。 </li>
+</ul>
+</li>
+<li><p>标签</p>
+<ul>
+<li>git支持开发者在自己的版本上打标签，打了标签之后，开发者与git就可以用标签来标记某个版本，而不用面对一串commit id。</li>
+<li>标签存在于本地版本库，可以被推送到远端版本库，也可以用命令删除远端版本库中的标签</li>
+</ul>
+</li>
+<li><p>别名</p>
+<ul>
+<li>一个个人认为比较鸡肋的功能，算是个性化定制。</li>
+<li>该功能通过简单的命令，可以将 commit -m 别名为 cm ，将push origin 别名为 po。</li>
+<li>在使用命令时，就可以用cm或者po来代替原来较长的单词命令</li>
+<li>但是个人认为，在不同的环境下工作，你可能需要把这些都移植过来。</li>
+</ul>
+</li>
+<li><p>远程仓库</p>
+<ul>
+<li>一个用于托管代码的公共版本库，即前面提到过的git服务器。</li>
+<li>一般情况下，git支持用ssh和https来传输数据，https速度慢，且每次推送需要口令，较麻烦</li>
+<li>实际上，git服务器与其他git节点不同的地方，就是在于它需要接受其他节点的push。</li>
+</ul>
+<blockquote>
+<p>push不能胡乱接受，否则就会受到攻击，所以如果你传输协议是https的，它会用你输入的口令来验证你的push权限，如果你是ssh的，则会对你传输申请时提交的ssh key进行过滤</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><hr>
+<p>我将我常用的git命令按照以下五个分类进行划分与整理：</p>
+<ul>
+<li><p>本地版本仓库管理</p>
+<ol>
+<li><p>设置git用户名和邮箱</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;object&quot;</span><br><span class="line">git config --global user.email &quot;2252390865@qq.com&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建版本仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>把文件添加到仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add</span><br><span class="line">git add -f xxxx 强制添加到git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>把文件提交到仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;提交说明&quot;</span><br><span class="line">// -- 提交说明很重要，这记录着你每次提交的情况，免得版本多了，自己忘了改了什么</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前仓库状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">// -- 用这个命令可以随时掌握工作区的状态</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看距离上一次add，文件的变更情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git diff 文件名</span><br><span class="line">// -- diff可以查看仓库内的任意一个文件，本次修改的情况，当用git status时，发现有文件修改，可以用此命令，查看具体修改了什么</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看仓库所有版本记录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br><span class="line">git log --pretty=oneline 将结果以一行的形式显示</span><br><span class="line">git reflog 列出曾经存在过的所有版本号 同样可以搜索</span><br><span class="line">// -- 可以使用如grep一样的命令进行搜索 如：git log --pretty=oneline | grep create</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>版本回退与重置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^^ 回退到前两个版本（上上个版本）</span><br><span class="line">git reset --hard commit id 重置到指定版本号的版本</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>撤销本次工作区中的修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- README.MD</span><br><span class="line">// -- 当readme.md文件已经被add的时候，他的内容就已经进入了暂存区。而上面的命令，是撤销工作区中的修改。</span><br><span class="line">// -- 所以，该命令大致意思是回到最近一次commit或add的样子</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>撤销在暂存区内的某个修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD README.MD</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从版本中删除文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm 文件名 </span><br><span class="line">// -- 此时只是从当前版本中删除了文件，但物理文件还是存在的，你可直接把物理文件删除 </span><br><span class="line">// -- 当你物理文件被删除的情况下，你想恢复，可以用 撤销本次工作区中的修改 来实现恢复文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>暂存现工作区的状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看暂存工作区状态的列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash list</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>恢复工作区状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git stash apply &lt;暂存标识&gt; </span><br><span class="line">// -- 这种情况下只会恢复工作区状态，不会从列表中删除该状态，所以需要用 git stash drop &lt;暂存标识&gt; 来删除</span><br><span class="line">git stash pop</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>远程仓库管理</p>
+<ol>
+<li><p>创建ssh key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;2252xxx5@qq.com&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将本地仓库与远程仓库关联</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add &lt;仓库名&gt; &lt;仓库地址与信息&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将本地仓库内容推送到远程仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push [参数信息，如-u] &lt;仓库名&gt; &lt;分支名&gt;</span><br><span class="line">// -u参数，当首次推送某分支的时候，该参数可以将本地分支和远程分支关联起来，以后推送时可简化命令</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将远程仓库克隆到本地</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone &lt;仓库地址&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从远程仓库取得某分支的更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>分支管理</p>
+<ol>
+<li><p>创建分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git branch &lt;分支名&gt;</span><br><span class="line">// -- 当前在什么分支，就会以什么分支为基础，创建新分支</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>切换分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout &lt;分支名&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建并切换分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b &lt;分支名&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前分支情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>合并分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git merge &lt;被合并的分支&gt;</span><br><span class="line">// -- 如果，你要把demo分支合并到master分支中，那你首先要切换到master分支里，再执行 git merge demo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git branch -d &lt;分支名&gt;</span><br><span class="line">git branch -D &lt;分支名&gt; 强制删除分支</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看分支合并情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --graph --pretty=oneline --abbrev-commit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>合并分支，且生成一个版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge --no-ff -m &quot;提交说明&quot; &lt;分支名&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>多人协作</p>
+<ol>
+<li><p>查看远程仓库的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote 简单信息</span><br><span class="line">git remote -v 详细信息</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通常工作流程</p>
+<ol>
+<li>先自己新建分支，修改提交后，尝试push给远端</li>
+<li>推送失败，则说明远端比本地分支更新，则使用pull进行合并</li>
+<li>如果有冲突，则解决冲突</li>
+<li>如果pull失败，提示”no tracking information”，则表示本地分支与远端分支没有建立关联。可使用 git branch –set-upstream &lt;分支名&gt; &lt;远端仓库名&gt;/&lt;分支名&gt;</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>标签与别名</p>
+<ol>
+<li><p>创建标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git tag v1.0  默认是当前分支的最新版本</span><br><span class="line">git tag v1.2 &lt;commit id&gt; 给特定版本打上标签</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建带有说明的标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -a v0.1 -m &quot;说明信息&quot; &lt;commit id&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -d v1.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>推送标签到远端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push &lt;仓库名&gt; &lt;标签名&gt;</span><br><span class="line">git push &lt;仓库名&gt; --tags 把未推送的标签全部推送过去</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除远端仓库的标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin :refs/tags/&lt;tagname&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查.gitignore是否有问题（语法错误）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git check-ignore -v</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>给git命令配置别名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.st status  给status配置一个叫 st 的别名</span><br><span class="line">git config --global alias.unstage &apos;reset HEAD&apos;  敲命令时，unstage可以代替 reset HEAD</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<h1 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h1><hr>
+<ul>
+<li><p>分支策略</p>
+<ul>
+<li>Master分支应保持非常稳定的状态，近用来发布新版本，不能用于开发</li>
+<li>dev分支代表用于开发的分支</li>
+<li>每个开发者可以新建一个自己的分支推送给远程仓库，远程仓库对这些推送来的分支做处理，如合并</li>
+<li>修复bug，最好为该bug新建分支</li>
+<li>添加新功能，最好为该新功能新建分支</li>
+<li>哪个分支上的bug，就以哪个分支为基础，创建新分支用于修复bug</li>
+</ul>
+</li>
+<li><p>忽略敏感文件</p>
+<blockquote>
+<p>当不希望某文件被提交与管理时，可新建一个.gitignore 文件，再将需要忽略的文件写进去，将.gitignore文件提交到git </p>
+</blockquote>
+</li>
+<li>搭建git服务器<ol>
+<li>在linux上安装git</li>
+<li>创建linux的git用户</li>
+<li>创建证书登录<ul>
+<li>收集所有需要登录的用户的公钥，即id_rsa.pub</li>
+<li>将所有公钥导入到/home/git/.ssh/authorized_keys文件中，一行一个</li>
+</ul>
+</li>
+<li>初始化git仓库<ul>
+<li>选定一个目录，git init –bare 项目名.git</li>
+<li>修改项目的拥有者 chown –R git:git 项目名.git</li>
+</ul>
+</li>
+<li>在本地clone</li>
+<li>最后，两个工具系统：公钥管理 gitosis，权限管理 gitolite</li>
+</ol>
+</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><hr>
+<blockquote>
+<p>git是个诞生与linux的工具，是现代程序员必修技能之一。<br>git只是一个工具，大致常用的命令基本已在本文中罗列出来。<br>这些概念与命令，看一两天就能掌握，但想要熟练运用在项目中，还须日常练习。</p>
+</blockquote>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/09/17/ssl01/">关于更新或开启ssl证书后安卓无法打开网页的问题</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://ablegang.github.io"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/git概念与常用命令总结/">git概念与常用命令总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/ssl01/">关于更新或开启ssl证书后安卓无法打开网页的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/12/1/">Hexo + github pages 简单搭建博客</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">半醒的狐狸.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
