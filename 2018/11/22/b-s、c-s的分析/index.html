@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="半醒的狐狸，专注技术与产品的学习、实践、研究。"><title>b/s、c/s的分析 | 半醒的狐狸</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">b/s、c/s的分析</h1><a id="logo" href="/.">半醒的狐狸</a><p class="description">技术、产品、创业、思考、写作</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/about/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">b/s、c/s的分析</h1><div class="post-meta">Nov 22, 2018</div><div class="post-content"><p>c/s和b/s是对软件结构的分类，或者说软件架构。<br>其中，c是client的缩写，s是server的缩写，b是browser的缩写。<br>Client指的是客户端<br>Server指的是服务器<br>Browser指的是浏览器<br>c/s就是客户端与服务器、b/s就是浏览器与服务器。</p>
+<a id="more"></a>
+<h1 id="软件架构"><a href="#软件架构" class="headerlink" title="软件架构"></a>软件架构</h1><p>简单来说，软件架构大致指的是：一个软件的组成部分，以及各个组成部分之间的关系、职责。</p>
+<p>拿c/s来举例：</p>
+<blockquote>
+<p>一个c/s架构的软件，它的组成部分主要是client和server，它们各自负责着一些工作，组合在一起，共同实现这个软件的功能。</p>
+</blockquote>
+<h1 id="server"><a href="#server" class="headerlink" title="server"></a>server</h1><p>server在c/s和b/s中都充当着重要一环，职责也大致相同。</p>
+<p>server负责存储数据、安全系数比较高的计算、以及负责各client之间的同步和协调等工作。</p>
+<p>比如，你微信钱包里还有100元，这个100元的数字一定是存储在server的，而不是存在你手机里，否则，你一旦换手机登录微信，100元就没了。</p>
+<p>另外，server安全系数较高，用户没有操作的权限，仍然是那100元，如果存在client，也就是你的手机里，你是不是有可能将他改成10000？但在server上，你没有操作的权限。</p>
+<p>当然，上面只是一个例子。</p>
+<h1 id="c-s"><a href="#c-s" class="headerlink" title="c/s"></a>c/s</h1><p>c/s架构前面有说过，组成部分是client和server</p>
+<p>client负责给用户：</p>
+<ul>
+<li>显示界面</li>
+<li>响应交互</li>
+<li>与server通讯</li>
+<li>…</li>
+</ul>
+<p>client由开发者针对系统特性开发。</p>
+<p>由于client本身就负责与server进行通讯，那么，通讯方式也是能够定制和扩展的。</p>
+<h1 id="b-s"><a href="#b-s" class="headerlink" title="b/s"></a>b/s</h1><p>b/s架构的组成成员是browser和server。</p>
+<p>browser不像client一样那么全职，browser主要只负责充当一个可以和server通讯的容器。</p>
+<p>那么容器里放什么东西呢？html、css、javascript，也就是网页。</p>
+<p>用户界面和响应交互，是由网页来负责的，网页需要开发者开发。</p>
+<p>所以，b/s模式的软件开发通常会被称作web开发。</p>
+<p>和c/s比起来，browser已经为web开发者提供了封装好的通讯功能，不需要像client一样自己去实现。</p>
+<h1 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h1><p>又回到这个问题。</p>
+<p>了解软件架构的特性，对于选型而言很重要，你需要根据项目背景等因素，去考虑如何选择软件架构。</p>
+<p>不同的软件架构，所需要的技术栈、技术人才、技术成本都不一样。</p>
+<p>说说优缺点吧。</p>
+<p>c/s：</p>
+<p>成本相对高、跨平台相对难、通常需要安装</p>
+<p><strong>但体验相对好、性能相对高、定制性相对高</strong></p>
+<blockquote>
+<p>很关键的一点，client在没有其他抽象层的情况下，直接依赖操作系统，它的功能显然也更多，它能调用系统级的api。</p>
+</blockquote>
+<p>b/s：</p>
+<p>成本相对低、跨平台性相对好、且不用安装</p>
+<p>但体验相对弱、性能相对弱、定制性相对弱，功能当然也相对弱，它只能调用browser所开放的接口，不是系统级的。</p>
+<p>毕竟web网页依附于browser才能运行。</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>其实这个我们可以想象联想一下jvm</p>
+<p>Jvm作为一个中间的抽象层，让java中间码只依赖于它，而不是直接依赖于操作系统，这赋予了java跨平台性</p>
+<p>Browser正是中间哪个抽象层，让用户界面直接依赖于browser，而不是操作系统，这赋予了b/s架构的软件跨平台性</p>
+<blockquote>
+<p>这里又延伸到抽象层的思考，我们会发现，一个项目变得复杂了之后，维护会成为一个比较头痛的问题。为了让项目变得可维护，我们会通过各种手段，各种思想，将他解耦，到最后，我们会发现，这个项目的架构变得比刚开始的架构复杂很多，你再仔细观察一下，中间增加了许多层。这些层负责的职责，越来越单一，越来越清晰。</p>
+</blockquote>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/11/21/动态类型语言、静态类型语言的分析/">动态类型语言、静态类型语言的分析</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="http://www.vsonweb.com"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/b-s、c-s的分析/">b/s、c/s的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/动态类型语言、静态类型语言的分析/">动态类型语言、静态类型语言的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/弱类型语言、强类型语言的定义/">弱类型语言、强类型语言的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/编译型语言和解释型语言的区别/">编译型语言、解释型语言的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/05/对产品生命周期的思考/">对产品生命周期、项目管理的思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/01/简单说get和post/">简单说get和post</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/26/下一年的计划/">下一年的计划</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/23/个人发展的一些思考/">个人发展的一些思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/28/重温PHP计划/">PHP学习路线图</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/19/关于快速学习的一些心得/">关于快速学习的一些心得</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://www.jianshu.com/u/e3d9db288dab" title="我的简书" target="_blank">我的简书</a><ul></ul><a href="https://github.com/Ablegang" title="我的Github" target="_blank">我的Github</a><ul></ul><a href="https://www.weifengchuxing.com" title="我的项目" target="_blank">我的项目</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">半醒的狐狸.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
