@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="半醒的狐狸，专注技术与产品的学习、实践、研究。"><title>高内聚低耦合、依赖倒置、控制反转、依赖注入 | 半醒的狐狸</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">高内聚低耦合、依赖倒置、控制反转、依赖注入</h1><a id="logo" href="/.">半醒的狐狸</a><p class="description">技术、产品、创业、思考、写作</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">高内聚低耦合、依赖倒置、控制反转、依赖注入</h1><div class="post-meta">Nov 29, 2018</div><div class="post-content"><p>软件工程里面，有高内聚低耦合的概念。</p>
+<p>那么，什么是内聚？什么是耦合呢？</p>
+<a id="more"></a>
+<h1 id="内聚"><a href="#内聚" class="headerlink" title="内聚"></a>内聚</h1><p>所谓内聚，就是指一个功能模块内所有内容之间的关联度、相关性和紧密程度。</p>
+<p>模块之内的方法、逻辑、语义以及其他成员之间，都有着很强的关联性，这就是高内聚。</p>
+<p>一个好的程序设计必然追求高内聚，模块内的所有内容必须有着很强的关联性，它们才能被放在一个模块之内。</p>
+<blockquote>
+<p>举个例子：设计一个用户模块，设计者一定是将用户相关的内容放在一个模块之内，不可能将毫无关联或者关联度极低的“新闻相关”内容放到用户模块里。</p>
+</blockquote>
+<p>这就是一种对高内聚的追求，软件系统只有尽可能达到高内聚，才更有利于管理、维护、扩展。</p>
+<h1 id="耦合"><a href="#耦合" class="headerlink" title="耦合"></a>耦合</h1><p>所谓耦合，就是指不同功能模块之间的依赖关系。</p>
+<p>比如，用户模块的所有功能，都不依赖于新闻模块，就算没有新闻模块，用户模块也能独立运行，这就是用户模块和新闻模块之间没有耦合。</p>
+<p>但反之，如果用户模块依赖于新闻模块，那么，用户模块就没办法脱离新闻模块独立运行，当新闻模块有些东西发生改动的时候，说不定用户模块也需要改动才能正常运行，这就是耦合。</p>
+<h1 id="高内聚低耦合"><a href="#高内聚低耦合" class="headerlink" title="高内聚低耦合"></a>高内聚低耦合</h1><p>软件开发上，从前期设计、规划，到后期开发实现，都应该秉承高内聚低耦合的思想。</p>
+<p>只有尽可能地达到高内聚低耦合，程序才能更利于维护、拓展，从方方面面降低此程序的管理成本。</p>
+<blockquote>
+<p>关于高内聚低耦合的思想，在充分理解内聚和耦合的概念后，再有一段时间的软件设计开发，回过头来想想，你就会发现这真的是真理。</p>
+</blockquote>
+<p>这里要提一点，之所以要说“高”内聚“低”耦合，是因为现实中，通常不存在绝对内聚和彻底无耦合。</p>
+<p>一个软件，本身就是由一个个功能模块组成，这些功能模块一起配合着完成软件的各种功能。</p>
+<p><strong>既然存在配合，那便必然存在耦合。</strong></p>
+<p>比如，你想要实现一个登陆注册功能，你会用到数据库模块、加密模块等。</p>
+<p>这时候，你的登录注册模块必然依赖于数据库模块和加密模块。</p>
+<p>所以，耦合在实际项目中是必不可少的。</p>
+<p>另外，我们前面所说的“模块”，<strong>粒度也是不确定的。</strong></p>
+<p>比如，你可以把“模块”精确到一个类，那么你可能有登录模块、注册模块，你也可以把模块放大到分类，如前台、后台。</p>
+<p>所以，高内聚低耦合的思想是从宏观的架构开始，一直贯彻到具体的代码文件的。理解这一点，非常重要。</p>
+<p>我们常用的许多设计模式，编程范式，大多都是为了尽可能地实现“高内聚低耦合”。</p>
+<h1 id="我的思考"><a href="#我的思考" class="headerlink" title="我的思考"></a>我的思考</h1><p>我认为：<strong>内聚过高，耦合必然升高，耦合降到最低，内聚也必然降低。</strong></p>
+<p>为什么这么说？</p>
+<p>因为：想要内聚性达到最高，那就只在模块内放最单一的内容，没有其它内容与他关联，只有他自己，那关联度不用说也是最高的。</p>
+<p>但是，这也导致了这个模块必然过分地依赖于外部模块，产生了极高的耦合。</p>
+<blockquote>
+<p>因为内聚提高的同时，代表着功能变得越来越单一，越来越少，对外界的依赖就越大。</p>
+</blockquote>
+<p>而耦合如果降到最低呢？</p>
+<p>那各个模块之间如果彻底没有了互相依赖，那每个模块都能独立运行，每个模块都全能了。</p>
+<p>那不用说，这个模块的内聚性肯定低的没话讲了。</p>
+<p>比如，你登录模块完全不依赖外部模块，那你数据库查询也自己写，加密也自己写，但这些具体实现与登录基本没有太大的关联度。</p>
+<p>所以，基于我的思考，我认为：<strong>高内聚低耦合思想的本身，就是带有平衡性质的。它追求在提高内聚的同时降低耦合，达到一种最好的平衡状态。</strong></p>
+<h1 id="拔高视野"><a href="#拔高视野" class="headerlink" title="拔高视野"></a>拔高视野</h1><p>高内聚低耦合并非只是软件工程的思想，但凡是基数变大关系变复杂，高内聚低耦合都是解决混乱的好思想。</p>
+<p>比如，团队管理时，只有三个人时，你可能甚至不需要有部门的概念。</p>
+<p>但如果有三十个人，你就需要将这些人按关联度（内聚性）放在不同的部门中，而各个部门之间的依赖关系不能太复杂（低耦合）。</p>
+<p>怎么理解呢？</p>
+<p>比如，如果运营部日常工作，需要产品部、财务部、销售部、人力资源部、行政部、运输部……十几个部门的协助，那，任何一个部门缺席，都会导致运营部门不能干活！！</p>
+<p>这还得了？</p>
+<p><strong>所以，在设计工作职责和机制、人员管理上，高内聚低耦合的思想依旧能提供一定指导。</strong></p>
+<blockquote>
+<p>精炼一点的话，只要复杂度和量级能够达到“工程”级，高内聚低耦合思想就都能提供指导。</p>
+</blockquote>
+<p>说完内聚和耦合，接下来说几个很常见的词。</p>
+<p>依赖倒置、控制反转、依赖注入，这三个词都是在面向对象设计中很常见的词语。</p>
+<h1 id="依赖倒置"><a href="#依赖倒置" class="headerlink" title="依赖倒置"></a>依赖倒置</h1><p>依赖倒置是面向对象设计中能够降低耦合度的重要的设计原则。</p>
+<p>它有两个主要思想：</p>
+<ul>
+<li>高层次的模块不应该依赖于低层次的模块，他们都应该依赖于抽象</li>
+<li>抽象不应该依赖于具体实现，具体实现应该依赖于抽象</li>
+</ul>
+<p>怎么来理解呢？</p>
+<p><strong>我们需要先理解依赖这个词：当A依赖于B，我们可以理解为，A没有B就不行了，反过来B没有A无所谓。</strong></p>
+<p>在面向对象的设计中，我们会在开发具体逻辑之前，定义一些接口。</p>
+<p>这个接口，就是抽象出来的东西。</p>
+<p>接口本身没有任何能力，不提供任何具体的技能，他只是指导了具体功能应该长什么样子。（这就是抽象，抽象是非细节、非具体）</p>
+<p>有了接口这层抽象，不论是调用方，还是实现方，都依赖于接口，而非依赖于具体，这就是一种依赖倒置。</p>
+<p>比如，你出去买东西，你得拿钱去。</p>
+<p>但在远古时期，大家都是以物易物的，那时候就很麻烦，但有了钱币这个抽象之后，大家依赖于钱币，不依赖于具体的物。这使得交易变得更加灵活。</p>
+<p>那么，依赖倒置有什么好处呢？</p>
+<p>试想，仍然以接口的抽象为例。</p>
+<p>如果我们调用方直接依赖于实现方，那么实现方发生剧烈变动时，调用方的调用动作也得跟着变动。</p>
+<p>当一个项目变得复杂时，一旦底层实现方发生一丁点变动，都有可能对上层数量庞大的调用方产生剧烈影响。</p>
+<p>这也是高耦合的一种现象（上下层依赖关系太复杂）。</p>
+<p>但如果，我们本着依赖倒置的原则，上下层都依赖于接口，那么，只要接口不变，上下层双方内部无论怎么变，都不会对对方产生影响。</p>
+<p>所以，有时候接口，也会被称作契约。</p>
+<p>因为只要你能履约，不论你发生什么改动，我都不管你。</p>
+<p>依赖倒置原则，很好的降低了耦合度。</p>
+<h1 id="控制反转"><a href="#控制反转" class="headerlink" title="控制反转"></a>控制反转</h1><p>控制反转，也是为了降低软件的耦合度而提出的一种面向对象设计原则。</p>
+<p>怎么理解呢？</p>
+<p>我们可以按照字面意义来理解，它就是在说：控制权被反转了。</p>
+<p>比如，一件事情本来由A来控制的，现在变成了B来控制。</p>
+<p>最形象的例子莫过于：new一个对象。</p>
+<p>比如：</p>
+<p>在A类中，我们需要依赖B类的实例，那我们会在A的代码中，new一个B，然后使用B的功能。</p>
+<p>但我们会遇到一个问题，如果B哪天不能工作了，我们需要由C来替代B。</p>
+<p>这时候，我们就需要在A的代码中修改new B那一段代码，改成new C。</p>
+<p>如果，我们之前有A1、A2、A3……A100，都依赖于B，我们就需要分别从它们的代码中，把new B改成new C。</p>
+<p>这显然没有什么维护性可言。</p>
+<p>控制反转就是为了避免这种问题的发生而提出的设计原则（设计模式）。</p>
+<p>就是让A1一直到A100，将new的控制权交出去。</p>
+<blockquote>
+<p><strong>他们只管得到一个实例，至于这个实例，谁来new，他们不管，他们只管这个实例能用就行。</strong></p>
+</blockquote>
+<p>那么，这些A就只负责取得实例以及使用其带来的功能，将控制权转出去的同时，也就不用去管B升级为C的破事了，谁控制谁去管吧。</p>
+<p>此时，A就乐得清闲了。</p>
+<p>那么，通过什么样的方式让A把控制权交出去呢？</p>
+<p>或者说，如何实现控制反转呢？</p>
+<h1 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h1><p>依赖注入，是实现控制反转的一种方式。</p>
+<p>从这句描述，我们就能知道依赖注入和控制反转之间的关系了。</p>
+<p>这个具体的方式，其实很简单。</p>
+<p>上面说把控制权交出去，那我们的A仍然还需要拿到一个B或者C的实例才能正常工作。</p>
+<p>那就通过在A被实例化的时候，把这个实例从外界注入到A中去，常见的会在构造函数中注入。</p>
+<p>这就是依赖注入。</p>
+<p>其实就是通过你能想到的任何形式，将A想要的实例传到A里面。</p>
+<p>注入这个词，很生动形象。</p>
+<h1 id="结合"><a href="#结合" class="headerlink" title="结合"></a>结合</h1><p>那么，我们可以结合一下依赖倒置、控制反转、依赖注入这三个词。</p>
+<p>实际上，我们从上面一句话中可以拆分出三个字各自的意义。</p>
+<p>从这句话中，我们能够解读出，三者之间是互相配合的。</p>
+<p>这句话是：</p>
+<p>他们只管<strong>得到</strong>一个实例，至于这个实例，谁来new，他们不管，他们只管这个实例<strong>能用</strong>就行。</p>
+<p>我们知道这句话如果实现了，那就是一次对控制反转原则的贯彻。</p>
+<p>而上面“得到”一词，便是依赖注入来实现的。</p>
+<p>“能用”一词，则是基于依赖倒置原则实现的。</p>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/11/28/异步-同步、非阻塞-阻塞、并行-并发/">异步/同步、非阻塞/阻塞、并行/并发</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="http://www.vsonweb.com"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/11/29/高内聚低耦合、依赖倒置、控制反转、依赖注入/">高内聚低耦合、依赖倒置、控制反转、依赖注入</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/28/异步-同步、非阻塞-阻塞、并行-并发/">异步/同步、非阻塞/阻塞、并行/并发</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/28/单线程、多线程/">单线程、多线程、多进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/27/编程范式及编程思想/">编程范式及编程思想</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/http、http1-0、http1-1、http2-0、https的分析/">http、http1.0、http1.1、http2.0、https的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/web大致工作流程/">web大致工作流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/b-s、c-s的分析/">b/s、c/s的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/动态类型语言、静态类型语言的分析/">动态类型语言、静态类型语言的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/弱类型语言、强类型语言的定义/">弱类型语言、强类型语言的分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/编译型语言和解释型语言的区别/">编译型语言、解释型语言的分析</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="https://www.jianshu.com/u/e3d9db288dab" title="我的简书" target="_blank">我的简书</a><ul></ul><a href="https://github.com/Ablegang" title="我的Github" target="_blank">我的Github</a><ul></ul><a href="https://www.weifengchuxing.com" title="我的项目" target="_blank">我的项目</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">半醒的狐狸.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
