@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="半醒的狐狸，专注技术与产品的学习、实践、研究。"><title>如何理解单线程、多线程？如何选择多线程、多进程？ | 半醒的狐狸</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">如何理解单线程、多线程？如何选择多线程、多进程？</h1><a id="logo" href="/.">半醒的狐狸</a><p class="description">技术、产品、创业、思考、写作</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">如何理解单线程、多线程？如何选择多线程、多进程？</h1><div class="post-meta">Nov 28, 2018</div><div class="post-content"><p>在进入主题之前，我们先要理解一些名词。</p>
+<ul>
+<li>进程</li>
+<li>线程</li>
+<li>主进程</li>
+<li>子进程</li>
+<li>主线程</li>
+<li>子线程</li>
+</ul>
+<a id="more"></a>
+<h1 id="名词理解"><a href="#名词理解" class="headerlink" title="名词理解"></a>名词理解</h1><ul>
+<li><p>进程</p>
+<p>当一个程序被运行，操作系统就会为这个程序生成一个进程，以管理该程序运行过程中内存和系统资源的分配。<br>进程是程序被执行时，操作系统的管理单元，并且，进程也是操作系统分配资源的最小单元。</p>
+</li>
+<li><p>线程</p>
+<p>线程是比进程更小的单元，它是cpu的最小执行单元（当然，现在还有协程）。一个进程，至少包含一个或多个线程。</p>
+</li>
+<li><p>主进程和子进程</p>
+<p>程序运行之后，有些复杂的任务一个进程是无法完成的，这时候就有了多进程的概念。多进程中，便有了主进程和子进程。<br>主进程是程序运行的中枢，它负责统筹安排。<br>而子进程则通常负责具体的事务。<br>比如php-fpm的设计，它就有一个主进程，当fpm被运行的时候，会有一条主进程长时间运行，而当有具体的请求到达服务器时，主进程会开启一些子进程去专门处理请求。</p>
+</li>
+<li><p>主线程和子线程</p>
+<p>同样，既然一个进程能够被拆分成多个线程，那么，线程也是有主次之分的。<br>比如，一个进程，初始化的时候，通常是一个线程在运行的，而当需要处理一些耗时长的任务时（比如IO操作），就会让开启一条子线程，让子线程去做这个事情，然后主线程继续执行接下去的任务。<br>这便是多线程。</p>
+</li>
+</ul>
+<h1 id="单线程和多线程"><a href="#单线程和多线程" class="headerlink" title="单线程和多线程"></a>单线程和多线程</h1><p>单线程的进程，有一个特性就是顺序执行，当遇到比较耗时的任务时，还未执行的任务就会处于等待状态，一定要等到前面的任务完成了，才会往后执行。</p>
+<p>PHP就是典型的单线程，它一定是顺序执行的，前面不执行完，后面执行不了</p>
+<p><strong>当然，swoole除外</strong></p>
+<p>多线程在软件层面，可以说是多个线程同时执行，但在物理层面，cpu如果是单核，那多个线程之间就总得有个先后（这涉及到cpu的线程调度、时间片轮转知识）</p>
+<p>多线程比起单线程，可以提高cpu利用率，多个线程同时执行，不会因为一个线程卡住而导致所有线程都要等待。</p>
+<p>但是多线程并非完全是好事，它也可能带来一些副作用，比如线程多了吃内存、多线程之间需要协调共享资源等</p>
+<h1 id="多进程和多线程"><a href="#多进程和多线程" class="headerlink" title="多进程和多线程"></a>多进程和多线程</h1><p>多进程的程序有php-fpm。</p>
+<p>多进程比起多线程，是将执行单元，放大到了进程上面，也就是不论是资源分配的单元，还是执行的单元，都以进程为主。</p>
+<p>你可以把耗时的任务分配到子进程进行，而主进程继续执行。其实说起来，这也就是多线程，一个进程对应一个线程，那么多个进程同时进行是否等于多个线程同时进行。</p>
+<p>当然，从这个角度这么理解是可以，但实际上多进程和多线程还是有很多差别，比如资源分配不一样，进程调度和线程调度也是两种策略。</p>
+<p>多线程则在资源分配上按进程来，执行上按线程来，以线程执行的特性来提高cpu利用率，从而达到提升程序运行效率。</p>
+<blockquote>
+<p>但据说，有IBM的人专门在unix和windows上做过实验，在unix，多进程的设计性能比多线程更好，而windows上，多线程的设计性能比多进程更好。——这个我没求证，未必可信。</p>
+</blockquote>
+</div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2018/11/28/如何理解同步-异步、阻塞非-阻塞、并行-并发？/">如何理解同步/异步、阻塞非/阻塞、并行/并发？</a><a class="next" href="/2018/11/27/如何理解面向过程、面向对象、面向切面？它们有什么区别？/">如何理解面向过程、面向对象、面向切面？它们有什么区别？</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="http://www.vsonweb.com"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/11/29/如何理解高内聚低耦合？什么是依赖倒置、控制反转、依赖注入？/">如何理解高内聚低耦合？什么是依赖倒置、控制反转、依赖注入？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/28/如何理解同步-异步、阻塞非-阻塞、并行-并发？/">如何理解同步/异步、阻塞非/阻塞、并行/并发？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/28/如何理解单线程、多线程？如何选择多线程、多进程？/">如何理解单线程、多线程？如何选择多线程、多进程？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/27/如何理解面向过程、面向对象、面向切面？它们有什么区别？/">如何理解面向过程、面向对象、面向切面？它们有什么区别？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/如何理解http、http1.0、http1.1、http2.0、https？/">如何理解http、http1.0、http1.1、http2.0、https？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/web的工作流程是什么？/">web的工作流程是什么？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/22/什么是b-s、c-s软件架构，它们有什么区别？/">什么是b/s、c/s软件架构，它们有什么区别？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/如何理解动态类型-静态类型语言？/">如何理解动态类型/静态类型语言？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/21/什么是弱类型语言、强类型语言？/">什么是弱类型语言、强类型语言？</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/20/如何理解编译型语言、解释型语言？/">如何理解编译型语言、解释型语言？</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="https://www.jianshu.com/u/e3d9db288dab" title="我的简书" target="_blank">我的简书</a><ul></ul><a href="https://github.com/Ablegang" title="我的Github" target="_blank">我的Github</a><ul></ul><a href="https://www.weifengchuxing.com" title="我的项目" target="_blank">我的项目</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">半醒的狐狸.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
